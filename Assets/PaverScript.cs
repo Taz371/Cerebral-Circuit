@@ -3,23 +3,97 @@ using UnityEngine;
 public class PaverScript : MonoBehaviour
 {
     private int paverXStartPoint = -5;
-    public float heightOffset = 2.5f;
-    public float paverSpeed = 3f; 
+    public float paverSpeed = 1f;
+
+    private float ycord = 1.2f;
+    private int direction = 0;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        transform.position = new Vector3(paverXStartPoint, Random.Range(0 - heightOffset, 0 + heightOffset), 0);
+        ycord = -2.5f + Random.Range(0,6);
+        
+        transform.position = new Vector3(paverXStartPoint, ycord, 0);
     }
 
     // Update is called once per frame
     void Update()
     {
-        transform.position += Vector3.right * paverSpeed * Time.deltaTime;
+        if (transform.position.x > 5)
+        {
+            Destroy(gameObject);
+        }
+
+        MovePacer();
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
         Destroy(collision.gameObject);
+
+        Centralise();
+
+        Turn();
+    }
+
+    void Turn()
+    {
+        if (direction == 0)
+        {
+            direction = Random.Range(0, 4);
+        }
+        else if (direction == 1)
+        {
+            direction = Random.Range(0, 4);
+        }
+        else if (direction == 2)
+        {
+            direction = Random.Range(0, 4);
+        }
+        else if (direction == 3)
+        {
+            direction = Random.Range(0, 4);
+        }
+    }
+
+    void MovePacer()
+    {
+        if (direction == 1 && transform.position.y < 2)
+        {
+            transform.position += new Vector3(0, 1, 0) * paverSpeed * Time.deltaTime;
+        }
+        else if (direction == 2 && transform.position.y > -2)
+        {
+            transform.position += new Vector3(0, -1, 0) * paverSpeed * Time.deltaTime;
+        }
+        else if (direction == 3 && transform.position.x > -3)
+        {
+            transform.position += new Vector3(-1, 0, 0) * paverSpeed * Time.deltaTime;
+        }
+        else
+        {
+            transform.position += new Vector3(1, 0, 0) * paverSpeed * Time.deltaTime;
+            direction = 0;
+        }
+    }
+
+    void Centralise()
+    {
+        if (direction == 0) // Right
+        {
+            transform.position += new Vector3(0.5f, 0, 0);
+        }
+        else if (direction == 1) // Up
+        {
+            transform.position += new Vector3(0, 0.5f, 0);
+        }
+        else if (direction == 2) // Down
+        {
+            transform.position += new Vector3(0, -0.5f, 0);
+        }
+        else if (direction == 3) // Left
+        {
+            transform.position += new Vector3(-0.5f, 0, 0);
+        }
     }
 }

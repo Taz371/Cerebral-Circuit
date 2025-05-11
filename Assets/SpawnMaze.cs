@@ -18,7 +18,7 @@ public class SpawnMaze : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        spawnGrid();
+        SpawnGrid();
     }
     
     // Update is called once per frame
@@ -27,7 +27,7 @@ public class SpawnMaze : MonoBehaviour
 
     }
     
-    void spawnGrid()
+    void SpawnGrid()
     {
         for (int xValue = 0; xValue <= 7; xValue++)
         {
@@ -41,7 +41,6 @@ public class SpawnMaze : MonoBehaviour
                 }
             }
         }
-
 
         for (int xValue = 0; xValue <= 8; xValue++)
         {
