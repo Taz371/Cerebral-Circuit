@@ -8,6 +8,8 @@ public class SpawnMaze : MonoBehaviour
     private float horizontalWallInitalXPosition = -3.5f;
     private float verticalWallInitalXPosition = -4.0f;
 
+    private int numberOfSquares = 48;
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -17,11 +19,18 @@ public class SpawnMaze : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+
     }
 
     void spawnGrid()
     {
+        /*float[,] midpoint = { {0,0},{0,0},{0,0},{0,0},{0,0},{0,0},{0,0},{0,0},
+                      {0,0},{0,0},{0,0},{0,0},{0,0},{0,0},{0,0},{0,0},
+                      {0,0},{0,0},{0,0},{0,0},{0,0},{0,0},{0,0},{0,0},
+                      {0,0},{0,0},{0,0},{0,0},{0,0},{0,0},{0,0},{0,0},
+                      {0,0},{0,0},{0,0},{0,0},{0,0},{0,0},{0,0},{0,0},
+                      {0,0},{0,0},{0,0},{0,0},{0,0},{0,0},{0,0},{0,0}};*/
+
         for (int xValue = 0; xValue <= 7; xValue++)
         {
             for (int yValue = -3; yValue <= 3; yValue++)
@@ -30,11 +39,13 @@ public class SpawnMaze : MonoBehaviour
             }
         }
 
+
         for (int xValue = 0; xValue <= 8; xValue++)
         {
             for (float yValue = -2.5f; yValue <= 2.5; yValue++)
             {
                 Instantiate(verticalWall, new Vector3(verticalWallInitalXPosition + xValue, yValue, 0), transform.rotation);
+                Debug.Log((verticalWallInitalXPosition + xValue) / 2 + "," + yValue / 2);
             }
         }
     }
