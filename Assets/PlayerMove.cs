@@ -7,13 +7,18 @@ public class PlayerMove : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        transform.position = new Vector3(-5, 0, 0);
+        transform.position = new Vector3(-7, 0, 0);
     }
 
     // Update is called once per frame
     void Update()
     {
-        if(Input.GetKeyDown(KeyCode.W) == true)
+        Move();
+    }
+
+    void Move()
+    {
+        if (Input.GetKeyDown(KeyCode.W) == true)
         {
             myRigidBody.linearVelocity = Vector2.up * playerSpeed * Time.deltaTime;
         }

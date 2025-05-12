@@ -1,19 +1,16 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class PaverScript : MonoBehaviour
 {
-    private int paverXStartPoint = -5;
     public float paverSpeed = 1f;
 
-    private float ycord = 1.2f;
     private int direction = 0;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        ycord = -2.5f + Random.Range(0,6);
-        
-        transform.position = new Vector3(paverXStartPoint, ycord, 0);
+
     }
 
     // Update is called once per frame
@@ -22,6 +19,7 @@ public class PaverScript : MonoBehaviour
         if (transform.position.x > 5)
         {
             Destroy(gameObject);
+            //SceneManager.LoadScene(SceneManager.GetActiveScene().name);
         }
 
         MovePacer();
@@ -29,7 +27,10 @@ public class PaverScript : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        Destroy(collision.gameObject);
+        if (collision.gameObject.layer != 3)
+        {
+            Destroy(collision.gameObject);
+        }
 
         Centralise();
 
