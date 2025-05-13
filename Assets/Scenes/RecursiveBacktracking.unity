@@ -155,7 +155,7 @@ Camera:
   m_Enabled: 1
   serializedVersion: 2
   m_ClearFlags: 1
-  m_BackGroundColor: {r: 0.19215687, g: 0.3019608, b: 0.4745098, a: 0}
+  m_BackGroundColor: {r: 0, g: 1, b: 0.9369166, a: 0}
   m_projectionMatrixMode: 1
   m_GateFitMode: 2
   m_FOVAxisMode: 0
@@ -220,7 +220,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1590777567}
-  - component: {fileID: 1590777566}
+  - component: {fileID: 1590777568}
   m_Layer: 0
   m_Name: MazeSpawner
   m_TagString: Untagged
@@ -228,21 +228,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &1590777566
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1590777565}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 555538c96b8cc014290f0a401390a9ea, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  square: {fileID: 605721490817169454, guid: 1f0a2f7c6592da14b8f469cd449bd5c6, type: 3}
-  hLine: {fileID: 3175834891504659042, guid: 662ce49a61569a84091051a2a1ca508a, type: 3}
-  vLine: {fileID: 9084643415612719713, guid: 3f8762e3f3170ef46ac72c53fc8e6783, type: 3}
 --- !u!4 &1590777567
 Transform:
   m_ObjectHideFlags: 0
@@ -258,6 +243,19 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1590777568
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1590777565}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 659134871123a5f4194adb33c915025b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  square: {fileID: 605721490817169454, guid: 79a763a017a101749aa6f76458efbb37, type: 3}
 --- !u!1001 &1659555923
 PrefabInstance:
   m_ObjectHideFlags: 0

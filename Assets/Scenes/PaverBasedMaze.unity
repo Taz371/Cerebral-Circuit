@@ -289,7 +289,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   paver: {fileID: 6692857148065916190, guid: 2de625c928fd5e84ba58b29ee3d37a32, type: 3}
-  amountOfPavers: 1
+  amountOfPavers: 2
 --- !u!4 &1572045876
 Transform:
   m_ObjectHideFlags: 0

@@ -26,8 +26,8 @@ Transform:
   m_GameObject: {fileID: 558316606099417711}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -6.82503, y: 3.83786, z: 0}
-  m_LocalScale: {x: 0.004467901, y: 0.104639225, z: 1}
+  m_LocalPosition: {x: -6.8533, y: 3.83786, z: 0}
+  m_LocalScale: {x: 0.009360252, y: 0.104639225, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1679634166935478159}
@@ -97,7 +97,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1679634166935478159}
   m_Layer: 6
-  m_Name: Square
+  m_Name: Node
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -236,8 +236,8 @@ Transform:
   m_GameObject: {fileID: 6040312088356465683}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -5.87733, y: 3.83759, z: 0}
-  m_LocalScale: {x: 0.00455123, y: 0.10474629, z: 1}
+  m_LocalPosition: {x: -5.8502, y: 3.83759, z: 0}
+  m_LocalScale: {x: 0.009239453, y: 0.10474629, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1679634166935478159}
@@ -323,8 +323,8 @@ Transform:
   m_GameObject: {fileID: 6891205205820115100}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0.7071068, w: 0.7071068}
-  m_LocalPosition: {x: -6.35108, y: 3.3654, z: 0}
-  m_LocalScale: {x: 0.0048044273, y: 0.10467124, z: 1}
+  m_LocalPosition: {x: -6.3523, y: 3.3395, z: 0}
+  m_LocalScale: {x: 0.00928888, y: 0.116319045, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1679634166935478159}
@@ -410,8 +410,8 @@ Transform:
   m_GameObject: {fileID: 7205395950933946299}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0.7071068, w: 0.7071068}
-  m_LocalPosition: {x: -6.35092, y: 4.31016, z: 0}
-  m_LocalScale: {x: 0.004751273, y: 0.10469469, z: 1}
+  m_LocalPosition: {x: -6.35209, y: 4.3384, z: 0}
+  m_LocalScale: {x: 0.009643659, y: 0.116280645, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1679634166935478159}
