@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using System.Collections;
 
 public class RBSpawnMaze : MonoBehaviour
 {
@@ -15,7 +16,6 @@ public class RBSpawnMaze : MonoBehaviour
 
     private int squaresCovered = 0;
     private int direction = 0;
-    //private string newPoint;
 
     private string possiblePoint;
 
@@ -32,6 +32,11 @@ public class RBSpawnMaze : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        StartCoroutine(CreateMaze());
+    }
+
+    IEnumerator CreateMaze()
+    {
         for (int i = 0; i <= 11; i++)
         {
             for (int j = 0; j <= 7; j++)
@@ -43,7 +48,7 @@ public class RBSpawnMaze : MonoBehaviour
 
         string startingPoint = (Random.Range(0, 12) + "," + Random.Range(0, 8));
 
-        Debug.Log("Starting Point: " + startingPoint);
+        //Debug.Log("Starting Point: " + startingPoint);
         Stack.push(ref top, stack, startingPoint);
 
         ChangeColorRed(startingPoint);
@@ -54,7 +59,11 @@ public class RBSpawnMaze : MonoBehaviour
         Debug.Log(direction);
 
         string nextPoint = RemoveWall(startingPoint, direction);
-        Stack.push(ref top, stack, nextPoint);
+
+        if (nextPoint != "")
+        {
+            Stack.push(ref top, stack, nextPoint);
+        }
 
         while (!Stack.isEmpty(top))
         {
@@ -64,7 +73,7 @@ public class RBSpawnMaze : MonoBehaviour
 
             nextPoint = Stack.peek(stack, top);
             string[] coords = nextPoint.Split(',');
-            Debug.Log("Parsing point: " + nextPoint);
+            //Debug.Log("Parsing point: " + nextPoint);
 
             int x = int.Parse(coords[0]);
             int y = int.Parse(coords[1]);
@@ -93,12 +102,14 @@ public class RBSpawnMaze : MonoBehaviour
             else
             {
                 int[] shuffledDirections = ShuffleArray(directions);
+                ChangeColorRed(nextPoint);
 
-                for (int i = 0; i < directions.Length; i++)
+                for (int i = 0; i < shuffledDirections.Length; i++)
                 {
-                    string currentPoint = RemoveWall(nextPoint, directions[i]);
+                    string currentPoint = RemoveWall(nextPoint, shuffledDirections[i]);
                     if (currentPoint != "")
                     {
+                        yield return new WaitForSeconds(0.1f);
                         ChangeColorRed(currentPoint);
                         Stack.push(ref top, stack, currentPoint);
                         moved = true;
@@ -173,8 +184,6 @@ public class RBSpawnMaze : MonoBehaviour
 
     string RemoveWall(string point, int wallNo)
     {
-        block = GameObject.Find(point);
-
         // 1 = Left Wall
         // -1 = Right Wall
         // 2 = Top Wall
@@ -184,8 +193,8 @@ public class RBSpawnMaze : MonoBehaviour
         int x = int.Parse(coords[0]);
         int y = int.Parse(coords[1]);
 
-        Debug.Log(x);
-        Debug.Log(y);
+        //Debug.Log(x);
+        //Debug.Log(y);
 
 
         if (wallNo == 1 && x > 0)
@@ -194,6 +203,7 @@ public class RBSpawnMaze : MonoBehaviour
 
             if (isColored(newPoint) == false)
             {
+                block = GameObject.Find(point);
                 GameObject childObj = block.transform.Find("Left Wall").gameObject;
                 if (childObj != null)
                 {
@@ -219,6 +229,7 @@ public class RBSpawnMaze : MonoBehaviour
 
             if (isColored(newPoint) == false)
             {
+                block = GameObject.Find(point);
                 GameObject childObj = block.transform.Find("Right Wall").gameObject;
                 if (childObj != null)
                 {
@@ -244,6 +255,7 @@ public class RBSpawnMaze : MonoBehaviour
 
             if (isColored(newPoint) == false)
             {
+                block = GameObject.Find(point);
                 GameObject childObj = block.transform.Find("Top Wall").gameObject;
                 if (childObj != null)
                 {
@@ -269,6 +281,7 @@ public class RBSpawnMaze : MonoBehaviour
 
             if (isColored(newPoint) == false)
             {
+                block = GameObject.Find(point);
                 GameObject childObj = block.transform.Find("Bottom Wall").gameObject;
                 if (childObj != null)
                 {
