@@ -28,6 +28,7 @@ public class RBSpawnMaze : MonoBehaviour
     private int[] directions = {-2, -1, 1, 2};
     private bool moved;
 
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -45,17 +46,14 @@ public class RBSpawnMaze : MonoBehaviour
         Debug.Log("Starting Point: " + startingPoint);
         Stack.push(ref top, stack, startingPoint);
 
-        getFilling(startingPoint);
         ChangeColorRed(startingPoint);
 
         int[] validDirections = new int[] { -2, -1, 1, 2 };
         direction = validDirections[Random.Range(0, validDirections.Length)];
 
-        //Debug.Log(direction);
+        Debug.Log(direction);
 
-        newPoint = startingPoint;
-
-        string nextPoint = RemoveWall(newPoint, direction);
+        string nextPoint = RemoveWall(startingPoint, direction);
         Stack.push(ref top, stack, nextPoint);
 
         while (!Stack.isEmpty(top))
@@ -158,14 +156,7 @@ public class RBSpawnMaze : MonoBehaviour
         Color color = findColor(point);
         Color red = new Color(1, 0, 0, 1);
 
-        if (color == red)
-        {
-            return true;
-        }
-        else
-        {
-            return false;
-        }
+        return color.Equals(Color.red);
     }
     
     void getFilling(string point)
@@ -193,11 +184,13 @@ public class RBSpawnMaze : MonoBehaviour
         int x = int.Parse(coords[0]);
         int y = int.Parse(coords[1]);
 
-        char[] pointArray = point.ToCharArray();
+        Debug.Log(x);
+        Debug.Log(y);
+
 
         if (wallNo == 1 && x > 0)
         {
-            newPoint = (x - 1) + "," + y; ;
+            newPoint = (x - 1) + "," + y;
 
             if (isColored(newPoint) == false)
             {
@@ -222,7 +215,7 @@ public class RBSpawnMaze : MonoBehaviour
         }
         else if (wallNo == -1 && x < 11)
         {
-            newPoint = (x + 1) + "," + y; ;
+            newPoint = (x + 1) + "," + y;
 
             if (isColored(newPoint) == false)
             {
