@@ -25,7 +25,7 @@ public class RBSpawnMaze : MonoBehaviour
     private int paths;
     private string currentPoint;
 
-    private int[] directions = { -2, -1, 1, 2 };
+    private int[] directions = {-2, -1, 1, 2};
     private bool moved;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -40,8 +40,9 @@ public class RBSpawnMaze : MonoBehaviour
             }
         }
 
-        string startingPoint = (Random.Range(0, 12) + "," + Random.Range(0, 8)).ToString();
+        string startingPoint = (Random.Range(0, 12) + "," + Random.Range(0, 8));
 
+        Debug.Log("Starting Point: " + startingPoint);
         Stack.push(ref top, stack, startingPoint);
 
         getFilling(startingPoint);
@@ -51,7 +52,6 @@ public class RBSpawnMaze : MonoBehaviour
         direction = validDirections[Random.Range(0, validDirections.Length)];
 
         //Debug.Log(direction);
-        RemoveWall(startingPoint, direction);
 
         newPoint = startingPoint;
 
@@ -66,6 +66,8 @@ public class RBSpawnMaze : MonoBehaviour
 
             nextPoint = Stack.peek(stack, top);
             string[] coords = nextPoint.Split(',');
+            Debug.Log("Parsing point: " + nextPoint);
+
             int x = int.Parse(coords[0]);
             int y = int.Parse(coords[1]);
 
@@ -99,9 +101,10 @@ public class RBSpawnMaze : MonoBehaviour
                     string currentPoint = RemoveWall(nextPoint, directions[i]);
                     if (currentPoint != "")
                     {
-                        Stack.push(ref top, stack, currentPoint);
                         ChangeColorRed(currentPoint);
+                        Stack.push(ref top, stack, currentPoint);
                         moved = true;
+                        break;
                     }
                 }
 
@@ -112,11 +115,20 @@ public class RBSpawnMaze : MonoBehaviour
             }
         }
 
+        //Stack.printStack(stack ,top);
+    }
 
-
-
-
-        Stack.printStack(stack ,top);
+    int[] ShuffleArray(int[] array)
+    {
+        int[] shuffledArray = (int[])array.Clone();
+        for (int i = 0; i < shuffledArray.Length; i++)
+        {
+            int rnd = Random.Range(i, shuffledArray.Length);
+            int temp = shuffledArray[rnd];
+            shuffledArray[rnd] = shuffledArray[i];
+            shuffledArray[i] = temp;
+        }
+        return shuffledArray;
     }
 
     // Update is called once per frame
@@ -185,16 +197,22 @@ public class RBSpawnMaze : MonoBehaviour
 
         if (wallNo == 1 && x > 0)
         {
-            GameObject childObj = block.transform.Find("Left Wall").gameObject;
-            Destroy(childObj);
-
             newPoint = (x - 1) + "," + y; ;
 
             if (isColored(newPoint) == false)
             {
+                GameObject childObj = block.transform.Find("Left Wall").gameObject;
+                if (childObj != null)
+                {
+                    Destroy(childObj);
+                }
+
                 GameObject adjacentBlock = GameObject.Find(newPoint);
                 childObj = adjacentBlock.transform.Find("Right Wall").gameObject;
-                Destroy(childObj);
+                if (childObj != null)
+                {
+                    Destroy(childObj);
+                }
                 return newPoint;
             }
             else
@@ -204,16 +222,22 @@ public class RBSpawnMaze : MonoBehaviour
         }
         else if (wallNo == -1 && x < 11)
         {
-            GameObject childObj = block.transform.Find("Right Wall").gameObject;
-            Destroy(childObj);
-
             newPoint = (x + 1) + "," + y; ;
 
             if (isColored(newPoint) == false)
             {
+                GameObject childObj = block.transform.Find("Right Wall").gameObject;
+                if (childObj != null)
+                {
+                    Destroy(childObj);
+                }
+
                 GameObject adjacentBlock = GameObject.Find(newPoint);
                 childObj = adjacentBlock.transform.Find("Left Wall").gameObject;
-                Destroy(childObj);
+                if (childObj != null)
+                {
+                    Destroy(childObj);
+                }
                 return newPoint;
             }
             else
@@ -223,16 +247,22 @@ public class RBSpawnMaze : MonoBehaviour
         }
         else if (wallNo == 2 && y > 0)
         {
-            GameObject childObj = block.transform.Find("Top Wall").gameObject;
-            Destroy(childObj);
-
             newPoint = x + "," + (y - 1);
 
             if (isColored(newPoint) == false)
             {
+                GameObject childObj = block.transform.Find("Top Wall").gameObject;
+                if (childObj != null)
+                {
+                    Destroy(childObj);
+                }
+
                 GameObject adjacentBlock = GameObject.Find(newPoint);
                 childObj = adjacentBlock.transform.Find("Bottom Wall").gameObject;
-                Destroy(childObj);
+                if (childObj != null)
+                {
+                    Destroy(childObj);
+                }
                 return newPoint;
             }
             else
@@ -242,16 +272,22 @@ public class RBSpawnMaze : MonoBehaviour
         }
         else if (wallNo == -2 && y < 7)
         {
-            GameObject childObj = block.transform.Find("Bottom Wall").gameObject;
-            Destroy(childObj);
-
             newPoint = x + "," + (y + 1);
 
             if (isColored(newPoint) == false)
             {
+                GameObject childObj = block.transform.Find("Bottom Wall").gameObject;
+                if (childObj != null)
+                {
+                    Destroy(childObj);
+                }
+
                 GameObject adjacentBlock = GameObject.Find(newPoint);
                 childObj = adjacentBlock.transform.Find("Top Wall").gameObject;
-                Destroy(childObj);
+                if (childObj != null)
+                {
+                    Destroy(childObj);
+                }
                 return newPoint;
             }
             else
