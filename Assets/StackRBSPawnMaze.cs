@@ -17,8 +17,6 @@ public class RBSpawnMaze : MonoBehaviour
     private int squaresCovered = 0;
     private int direction = 0;
 
-    private string possiblePoint;
-
     private string[] stack = new string[Stack.MaxSize];
     private int top = -1;
 
@@ -31,45 +29,48 @@ public class RBSpawnMaze : MonoBehaviour
     public float mazeLength;
     public float mazeHeight;
 
-    //0.8509698
-    //-0.3377795
-
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        GameObject camera = GameObject.Find("Main Camera");
-        Camera settings = camera.GetComponent<Camera>();
-
-        settings.orthographicSize = (mazeLength/2) + 1;
-        camera.transform.position = new Vector3((mazeLength/2)-0.5f, -1 * ((mazeHeight/2)-0.5f),-10);
-
+        AdjustCamera();
         StartCoroutine(CreateMaze());
     }
 
-    IEnumerator CreateMaze()
+    void AdjustCamera()
     {
-        for (int i = 0; i <= mazeLength - 1; i++)
+        GameObject camera = GameObject.Find("Main Camera");
+        Camera cameraComponent = camera.GetComponent<Camera>();
+
+        // Formula to position the camera at the centre of the maze
+        cameraComponent.orthographicSize = (mazeLength / 2) + 1;
+        camera.transform.position = new Vector3((mazeLength / 2) - 0.5f, -1 * ((mazeHeight / 2) - 0.5f), -10);
+    }
+
+    IEnumerator CreateMaze()            
+    {
+        for (int xCord = 0; xCord <= mazeLength - 1; xCord++)
         {
-            for (int j = 0; j <= mazeHeight - 1; j++)
+            for (int yCord = 0; yCord <= mazeHeight - 1; yCord++)
             {
-                var newObject = Instantiate(square, new Vector3(i, - j, 0), transform.rotation);
-                newObject.name = i + "," + j;
+                var newNode = Instantiate(square, new Vector3(xCord, -yCord, 0), transform.rotation);
+                newNode.name = xCord + "," + yCord;
             }
         }
 
         string startingPoint = Random.Range(0, (int)mazeLength) + "," + Random.Range(0, (int)mazeHeight);
 
         //Debug.Log("Starting Point: " + startingPoint);
+
         Stack.push(ref top, stack, startingPoint);
 
-        Debug.Log(startingPoint);
+        //Debug.Log(startingPoint);
 
         ChangeColorRed(startingPoint);
 
         int[] validDirections = new int[] { -2, -1, 1, 2 };
         direction = validDirections[Random.Range(0, validDirections.Length)];
 
-        Debug.Log(direction);
+        //Debug.Log(direction);
 
         string nextPoint = RemoveWall(startingPoint, direction);
 
@@ -81,7 +82,6 @@ public class RBSpawnMaze : MonoBehaviour
         while (!Stack.isEmpty(top))
         {
             moved = false;
-
             paths = 4;
 
             nextPoint = Stack.peek(stack, top);
@@ -125,6 +125,7 @@ public class RBSpawnMaze : MonoBehaviour
                         yield return new WaitForSeconds(0f);
                         ChangeColorRed(currentPoint);
                         Stack.push(ref top, stack, currentPoint);
+
                         moved = true;
                         break;
                     }

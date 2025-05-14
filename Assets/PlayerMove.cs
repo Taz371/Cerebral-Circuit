@@ -3,11 +3,11 @@ using UnityEngine;
 public class PlayerMove : MonoBehaviour
 {
     public Rigidbody2D myRigidBody;
-    public float playerSpeed = 10;
+    public float playerSpeed;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        transform.position = new Vector3(-7, 0, 0);
+        transform.position = new Vector3(0, 0, 0);
     }
 
     // Update is called once per frame
