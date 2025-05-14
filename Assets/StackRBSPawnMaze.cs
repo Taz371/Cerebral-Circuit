@@ -28,28 +28,41 @@ public class RBSpawnMaze : MonoBehaviour
     private int[] directions = {-2, -1, 1, 2};
     private bool moved;
 
+    public float mazeLength;
+    public float mazeHeight;
+
+    //0.8509698
+    //-0.3377795
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        GameObject camera = GameObject.Find("Main Camera");
+        Camera settings = camera.GetComponent<Camera>();
+
+        settings.orthographicSize = (mazeLength/2) + 1;
+        camera.transform.position = new Vector3((mazeLength/2)-0.5f, -1 * ((mazeHeight/2)-0.5f),-10);
+
         StartCoroutine(CreateMaze());
     }
 
     IEnumerator CreateMaze()
     {
-        for (int i = 0; i <= 11; i++)
+        for (int i = 0; i <= mazeLength - 1; i++)
         {
-            for (int j = 0; j <= 7; j++)
+            for (int j = 0; j <= mazeHeight - 1; j++)
             {
-                var newObject = Instantiate(square, new Vector3(0.85f + i, -0.34f - j, 0), transform.rotation);
+                var newObject = Instantiate(square, new Vector3(i, - j, 0), transform.rotation);
                 newObject.name = i + "," + j;
             }
         }
 
-        string startingPoint = (Random.Range(0, 12) + "," + Random.Range(0, 8));
+        string startingPoint = Random.Range(0, (int)mazeLength) + "," + Random.Range(0, (int)mazeHeight);
 
         //Debug.Log("Starting Point: " + startingPoint);
         Stack.push(ref top, stack, startingPoint);
+
+        Debug.Log(startingPoint);
 
         ChangeColorRed(startingPoint);
 
@@ -78,7 +91,7 @@ public class RBSpawnMaze : MonoBehaviour
             int x = int.Parse(coords[0]);
             int y = int.Parse(coords[1]);
 
-            if (x + 1 < 12 && isColored((x + 1) + "," + y))
+            if (x + 1 < mazeLength && isColored((x + 1) + "," + y))
             {
                 paths -= 1;
             }
@@ -86,7 +99,7 @@ public class RBSpawnMaze : MonoBehaviour
             {
                 paths -= 1;
             }
-            if (y + 1 < 8 && isColored(x + "," + (y + 1)))
+            if (y + 1 < mazeHeight && isColored(x + "," + (y + 1)))
             {
                 paths -= 1;
             }
@@ -109,7 +122,7 @@ public class RBSpawnMaze : MonoBehaviour
                     string currentPoint = RemoveWall(nextPoint, shuffledDirections[i]);
                     if (currentPoint != "")
                     {
-                        yield return new WaitForSeconds(0.1f);
+                        yield return new WaitForSeconds(0f);
                         ChangeColorRed(currentPoint);
                         Stack.push(ref top, stack, currentPoint);
                         moved = true;
@@ -223,7 +236,7 @@ public class RBSpawnMaze : MonoBehaviour
                 return "";
             }
         }
-        else if (wallNo == -1 && x < 11)
+        else if (wallNo == -1 && x < mazeLength)
         {
             newPoint = (x + 1) + "," + y;
 
@@ -275,7 +288,7 @@ public class RBSpawnMaze : MonoBehaviour
                 return "";
             }
         }
-        else if (wallNo == -2 && y < 7)
+        else if (wallNo == -2 && y < mazeHeight)
         {
             newPoint = x + "," + (y + 1);
 
@@ -310,7 +323,7 @@ public class RBSpawnMaze : MonoBehaviour
 
 internal class Stack
 {
-    public const int MaxSize = 100;
+    public static int MaxSize = 10000000;
 
     public static bool IsFull(int top)
     {
