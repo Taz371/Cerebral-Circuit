@@ -29,9 +29,13 @@ public class RBSpawnMaze : MonoBehaviour
     public float mazeLength;
     public float mazeHeight;
 
+    public static int level = 0;
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        mazeLength += level;
+        mazeHeight += level;
         AdjustCamera();
         StartCoroutine(CreateMaze());
     }
@@ -167,6 +171,7 @@ public class RBSpawnMaze : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Space) == true)
         {
+            level++;
             SceneManager.LoadScene(SceneManager.GetActiveScene().name);
         }
     }
