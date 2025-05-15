@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class FillingScript : MonoBehaviour
 {
@@ -23,6 +24,7 @@ public class FillingScript : MonoBehaviour
         {
             Debug.Log("YOU WON!!!");
             Destroy(playerObj);
+            SceneManager.LoadScene(SceneManager.GetActiveScene().name);
         }
     }
 }
