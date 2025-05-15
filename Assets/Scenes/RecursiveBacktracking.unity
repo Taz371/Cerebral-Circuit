@@ -256,8 +256,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   square: {fileID: 605721490817169454, guid: 79a763a017a101749aa6f76458efbb37, type: 3}
-  mazeLength: 5
-  mazeHeight: 5
+  mazeLength: 3
+  mazeHeight: 3
 --- !u!1001 &1659555923
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -313,6 +313,10 @@ PrefabInstance:
     - target: {fileID: 1515436866190907053, guid: a52e814bd76d8aa47a82dcb6f922e1b6, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: -0.11
+      objectReference: {fileID: 0}
+    - target: {fileID: 3813339694707703877, guid: a52e814bd76d8aa47a82dcb6f922e1b6, type: 3}
+      propertyPath: m_IsTrigger
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4889428277782423989, guid: a52e814bd76d8aa47a82dcb6f922e1b6, type: 3}
       propertyPath: m_Mass

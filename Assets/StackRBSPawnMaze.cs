@@ -36,6 +36,13 @@ public class RBSpawnMaze : MonoBehaviour
         StartCoroutine(CreateMaze());
     }
 
+    void SetWinArea()
+    {
+        string winPoint = (mazeLength-1) + "," + (mazeHeight-1);
+        getFilling(winPoint);
+        spriteR.color = Color.green;
+    }
+
     void AdjustCamera()
     {
         GameObject camera = GameObject.Find("Main Camera");
@@ -62,7 +69,7 @@ public class RBSpawnMaze : MonoBehaviour
         //Debug.Log("Starting Point: " + startingPoint);
 
         Stack.push(ref top, stack, startingPoint);
-
+        
         //Debug.Log(startingPoint);
 
         ChangeColorRed(startingPoint);
@@ -138,6 +145,7 @@ public class RBSpawnMaze : MonoBehaviour
             }
         }
 
+        SetWinArea();
         //Stack.printStack(stack ,top);
     }
 
