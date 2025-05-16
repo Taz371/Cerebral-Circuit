@@ -5,7 +5,8 @@ using System.Collections;
 public class RBSpawnMaze : MonoBehaviour
 {
     public GameObject square;
-    //12 x 8
+
+    public float mazeGenerationSpeed;
 
     private string point;
     private GameObject block;
@@ -28,6 +29,8 @@ public class RBSpawnMaze : MonoBehaviour
 
     public float mazeLength;
     public float mazeHeight;
+
+    private GameObject childObj;
 
     public static int level = 0;
 
@@ -77,6 +80,7 @@ public class RBSpawnMaze : MonoBehaviour
         //Debug.Log(startingPoint);
 
         ChangeColorRed(startingPoint);
+        ChangeLayerToVisited(startingPoint);
 
         int[] validDirections = new int[] { -2, -1, 1, 2 };
         direction = validDirections[Random.Range(0, validDirections.Length)];
@@ -102,19 +106,19 @@ public class RBSpawnMaze : MonoBehaviour
             int x = int.Parse(coords[0]);
             int y = int.Parse(coords[1]);
 
-            if (x + 1 < mazeLength && isColored((x + 1) + "," + y))
+            if (x + 1 < mazeLength && isVisited((x + 1) + "," + y))
             {
                 paths -= 1;
             }
-            if (x - 1 >= 0 && isColored((x - 1) + "," + y))
+            if (x - 1 >= 0 && isVisited((x - 1) + "," + y))
             {
                 paths -= 1;
             }
-            if (y + 1 < mazeHeight && isColored(x + "," + (y + 1)))
+            if (y + 1 < mazeHeight && isVisited(x + "," + (y + 1)))
             {
                 paths -= 1;
             }
-            if (y - 1 >= 0 && isColored(x + "," + (y - 1)))
+            if (y - 1 >= 0 && isVisited(x + "," + (y - 1)))
             {
                 paths -= 1;
             }
@@ -122,19 +126,23 @@ public class RBSpawnMaze : MonoBehaviour
             if (paths == 0)
             {
                 nextPoint = Stack.pop(ref top, stack);
+                ChangeColorWhite(nextPoint);
+                yield return new WaitForSeconds(mazeGenerationSpeed);
             }
             else
             {
                 int[] shuffledDirections = ShuffleArray(directions);
                 ChangeColorRed(nextPoint);
+                ChangeLayerToVisited(nextPoint);
 
                 for (int i = 0; i < shuffledDirections.Length; i++)
                 {
                     string currentPoint = RemoveWall(nextPoint, shuffledDirections[i]);
                     if (currentPoint != "")
                     {
-                        yield return new WaitForSeconds(0f);
+                        yield return new WaitForSeconds(mazeGenerationSpeed);
                         ChangeColorRed(currentPoint);
+                        ChangeLayerToVisited(currentPoint);
                         Stack.push(ref top, stack, currentPoint);
 
                         moved = true;
@@ -145,6 +153,8 @@ public class RBSpawnMaze : MonoBehaviour
                 if (!moved)
                 {
                     nextPoint = Stack.pop(ref top, stack);
+                    ChangeColorWhite(nextPoint);
+                    yield return new WaitForSeconds(mazeGenerationSpeed);
                 }
             }
         }
@@ -183,6 +193,13 @@ public class RBSpawnMaze : MonoBehaviour
         squaresCovered++;
     }
 
+    void ChangeColorWhite(string point)
+    {
+        getFilling(point);
+        spriteR.color = Color.white;
+        squaresCovered++;
+    }
+
     Color findColor(string point)
     {
         getFilling(point);
@@ -195,6 +212,32 @@ public class RBSpawnMaze : MonoBehaviour
         Color red = new Color(1, 0, 0, 1);
 
         return color.Equals(Color.red);
+    }
+
+    void ChangeLayerToVisited(string point)
+    {
+        block = GameObject.Find(point);
+        block.layer = 3;
+    }
+
+    bool isVisited(string point)
+    {
+        if (point != "")
+        {
+            block = GameObject.Find(point);
+            if (block!= null && block.layer == 3)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+        else
+        {
+            return false;
+        }
     }
     
     void getFilling(string point)
@@ -228,7 +271,7 @@ public class RBSpawnMaze : MonoBehaviour
         {
             newPoint = (x - 1) + "," + y;
 
-            if (isColored(newPoint) == false)
+            if (isVisited(newPoint) == false)
             {
                 block = GameObject.Find(point);
                 GameObject childObj = block.transform.Find("Left Wall").gameObject;
@@ -250,11 +293,11 @@ public class RBSpawnMaze : MonoBehaviour
                 return "";
             }
         }
-        else if (wallNo == -1 && x < mazeLength)
+        else if (wallNo == -1 && x < mazeLength-1)
         {
             newPoint = (x + 1) + "," + y;
 
-            if (isColored(newPoint) == false)
+            if (isVisited(newPoint) == false)
             {
                 block = GameObject.Find(point);
                 GameObject childObj = block.transform.Find("Right Wall").gameObject;
@@ -280,7 +323,7 @@ public class RBSpawnMaze : MonoBehaviour
         {
             newPoint = x + "," + (y - 1);
 
-            if (isColored(newPoint) == false)
+            if (isVisited(newPoint) == false)
             {
                 block = GameObject.Find(point);
                 GameObject childObj = block.transform.Find("Top Wall").gameObject;
@@ -302,11 +345,11 @@ public class RBSpawnMaze : MonoBehaviour
                 return "";
             }
         }
-        else if (wallNo == -2 && y < mazeHeight)
+        else if (wallNo == -2 && y < mazeHeight-1)
         {
             newPoint = x + "," + (y + 1);
 
-            if (isColored(newPoint) == false)
+            if (isVisited(newPoint) == false)
             {
                 block = GameObject.Find(point);
                 GameObject childObj = block.transform.Find("Bottom Wall").gameObject;
