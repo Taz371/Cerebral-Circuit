@@ -2,7 +2,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using System.Collections;
 
-public class RBSpawnMaze : MonoBehaviour
+public class SRBSpawnMazeScript : MonoBehaviour
 {
     public GameObject square;
 
@@ -181,7 +181,6 @@ public class RBSpawnMaze : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Space) == true)
         {
-            level++;
             SceneManager.LoadScene(SceneManager.GetActiveScene().name);
         }
     }

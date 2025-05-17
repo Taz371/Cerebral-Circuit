@@ -6,10 +6,15 @@ public class FillingScript : MonoBehaviour
     public SpriteRenderer spriteR;
     private GameObject playerObj;
 
+    //public SRBSpawnMazeScript spawnMazeScript;
+    public GameManagerScript gameManagerScript;
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         playerObj = GameObject.Find("Player").gameObject;
+        //spawnMazeScript = GameObject.FindGameObjectWithTag("Maze Spawner").GetComponent<SRBSpawnMazeScript>();
+        gameManagerScript = GameObject.FindGameObjectWithTag("Game Manager").GetComponent<GameManagerScript>();
     }
 
     // Update is called once per frame
@@ -22,9 +27,8 @@ public class FillingScript : MonoBehaviour
     {
         if (spriteR.color.Equals(Color.green))
         {
-            Debug.Log("YOU WON!!!");
-            Destroy(playerObj);
-            SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+            SRBSpawnMazeScript.level += 1;
+            gameManagerScript.win();
         }
     }
 }

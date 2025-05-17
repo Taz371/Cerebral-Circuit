@@ -1,10 +1,14 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-public class GameManager : MonoBehaviour
+public class GameManagerScript : MonoBehaviour
 {
     public Text timerText;
     float timePassed = 0;
+    public bool timerPaused = false;
+
+    private int seconds;
+    private int minutes;
 
     public GameObject questionScreen;
 
@@ -23,6 +27,9 @@ public class GameManager : MonoBehaviour
 
     private float answer;
 
+    public GameObject winScreen;
+    public Text timerMessage;
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -32,10 +39,13 @@ public class GameManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        timePassed += Time.deltaTime;
-        int minutes = Mathf.FloorToInt(timePassed / 60);
-        int seconds = Mathf.FloorToInt(timePassed % 60);
-        timerText.text = string.Format("{0:00}:{1:00}", minutes, seconds);
+        if (!timerPaused)
+        {
+            timePassed += Time.deltaTime;
+            minutes = Mathf.FloorToInt(timePassed / 60);
+            seconds = Mathf.FloorToInt(timePassed % 60);
+            timerText.text = string.Format("{0:00}:{1:00}", minutes, seconds);
+        }
 
         secondsClone = seconds;
         if (secondsClone != 0 && secondsClone % questionRate == 0 && !questionCreated)
@@ -52,6 +62,13 @@ public class GameManager : MonoBehaviour
             secondsClone = 0;
             selectedCorrectly = false;
         }
+    }
+
+    public void win()
+    {
+        winScreen.SetActive(true);
+        timerPaused = true;
+        timerMessage.text = string.Format("Your time was {0:00}:{1:00}", minutes, seconds);
     }
 
     void CreateQuestion()
@@ -78,7 +95,7 @@ public class GameManager : MonoBehaviour
         }
         else
         {
-            answer = numberOne / numberTwo;
+            answer = numberOne / numberTwo;  
         }
 
         float[] possibleAnswers = { answer - 1, answer + 1, answer + 2, answer};
