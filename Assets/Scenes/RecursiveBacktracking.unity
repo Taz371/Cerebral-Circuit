@@ -637,7 +637,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &927403144
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1555,7 +1555,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   square: {fileID: 605721490817169454, guid: 79a763a017a101749aa6f76458efbb37, type: 3}
-  mazeGenerationSpeed: 0.01
+  mazeGenerationSpeed: 0
   mazeLength: 3
   mazeHeight: 3
 --- !u!1 &1654761937
@@ -1822,7 +1822,7 @@ MonoBehaviour:
   optionTwo: {fileID: 1654761939}
   optionThree: {fileID: 1903748149}
   optionFour: {fileID: 50039360}
-  questionRate: 1001
+  userQuestionRate: 10
   winScreen: {fileID: 927403143}
   timerMessage: {fileID: 417741481}
 --- !u!4 &1787580620

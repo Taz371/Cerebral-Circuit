@@ -19,7 +19,10 @@ public class GameManagerScript : MonoBehaviour
     public Text optionThree;
     public Text optionFour;
 
-    public int questionRate;
+    public int userQuestionRate;
+    public static int questionRate;
+    public static bool questionRateInitialised = false;
+
     private int secondsClone;
 
     private bool selectedCorrectly = false;
@@ -33,12 +36,18 @@ public class GameManagerScript : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-
+        if (!questionRateInitialised)
+        {
+            questionRate = userQuestionRate;
+            questionRateInitialised = true;
+        }
     }
 
     // Update is called once per frame
     void Update()
     {
+        Debug.Log(questionRate);
+
         if (!timerPaused)
         {
             timePassed += Time.deltaTime;
@@ -66,6 +75,10 @@ public class GameManagerScript : MonoBehaviour
 
     public void win()
     {
+        if (questionRate != 1)
+        {
+            questionRate--;
+        }
         winScreen.SetActive(true);
         timerPaused = true;
         timerMessage.text = string.Format("Your time was {0:00}:{1:00}", minutes, seconds);
