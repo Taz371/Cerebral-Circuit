@@ -1,8 +1,9 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using System.Collections;
+using System.Collections.Generic;
 
-public class SRBSpawnMazeScript : MonoBehaviour
+public class SIBSpawnMazeScript : MonoBehaviour
 {
     public GameObject square;
 
@@ -33,6 +34,9 @@ public class SRBSpawnMazeScript : MonoBehaviour
     private GameObject childObj;
 
     public static int level = 0;
+
+    private Dictionary <string, List <string>> mazeGraph = new Dictionary<string, List <string>>();
+    private string listToString;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -160,6 +164,21 @@ public class SRBSpawnMazeScript : MonoBehaviour
         }
 
         SetWinArea();
+
+        Debug.Log($"Count: {mazeGraph.Count}");
+
+        foreach (KeyValuePair<string, List<string>> item in mazeGraph)
+        {
+            listToString = "";
+            for (int i = 0; i < item.Value.Count; i++)
+            {
+                listToString = listToString + " " + item.Value[i];
+            }
+
+            string message = ($"Key: {item.Key}, Value: {listToString}");
+            Debug.Log(message);
+        }
+
         //Stack.printStack(stack ,top);
     }
 
@@ -285,6 +304,9 @@ public class SRBSpawnMazeScript : MonoBehaviour
                 {
                     Destroy(childObj);
                 }
+
+                AddToGraph(point, newPoint);
+
                 return newPoint;
             }
             else
@@ -311,6 +333,9 @@ public class SRBSpawnMazeScript : MonoBehaviour
                 {
                     Destroy(childObj);
                 }
+
+                AddToGraph(point, newPoint);
+
                 return newPoint;
             }
             else
@@ -337,6 +362,9 @@ public class SRBSpawnMazeScript : MonoBehaviour
                 {
                     Destroy(childObj);
                 }
+
+                AddToGraph(point, newPoint);
+
                 return newPoint;
             }
             else
@@ -363,6 +391,9 @@ public class SRBSpawnMazeScript : MonoBehaviour
                 {
                     Destroy(childObj);
                 }
+
+                AddToGraph(point, newPoint);
+
                 return newPoint;
             }
             else
@@ -373,6 +404,41 @@ public class SRBSpawnMazeScript : MonoBehaviour
         else
         {
             return "";
+        }
+    }
+
+    void AddToGraph(string point, string newPoint)
+    {
+        if (!mazeGraph.ContainsKey(point))
+        {
+            mazeGraph.Add(point, new List<string>());
+            if (!mazeGraph[point].Contains(newPoint))
+            {
+                mazeGraph[point].Add(newPoint);
+            }
+        }
+        else
+        {
+            if (!mazeGraph[point].Contains(newPoint))
+            {
+                mazeGraph[point].Add(newPoint);
+            }
+        }
+
+        if (!mazeGraph.ContainsKey(newPoint))
+        {
+            mazeGraph.Add(newPoint, new List<string>());
+            if (!mazeGraph[newPoint].Contains(point))
+            {
+                mazeGraph[newPoint].Add(point);
+            }
+        }
+        else
+        {
+            if (!mazeGraph[newPoint].Contains(point))
+            {
+                mazeGraph[newPoint].Add(point);
+            }
         }
     }
 }

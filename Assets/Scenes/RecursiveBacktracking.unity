@@ -1822,7 +1822,7 @@ MonoBehaviour:
   optionTwo: {fileID: 1654761939}
   optionThree: {fileID: 1903748149}
   optionFour: {fileID: 50039360}
-  userQuestionRate: 10
+  userQuestionRate: 10001
   winScreen: {fileID: 927403143}
   timerMessage: {fileID: 417741481}
 --- !u!4 &1787580620
