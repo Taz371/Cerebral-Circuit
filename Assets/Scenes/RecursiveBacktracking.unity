@@ -1556,7 +1556,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   square: {fileID: 605721490817169454, guid: 79a763a017a101749aa6f76458efbb37, type: 3}
   mazeGenerationSpeed: 0
-  mazeLength: 3
+  mazeWidth: 3
   mazeHeight: 3
 --- !u!1 &1654761937
 GameObject:
@@ -1822,7 +1822,7 @@ MonoBehaviour:
   optionTwo: {fileID: 1654761939}
   optionThree: {fileID: 1903748149}
   optionFour: {fileID: 50039360}
-  userQuestionRate: 10001
+  userQuestionRate: 1001
   winScreen: {fileID: 927403143}
   timerMessage: {fileID: 417741481}
 --- !u!4 &1787580620

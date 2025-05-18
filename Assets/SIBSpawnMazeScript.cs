@@ -8,13 +8,16 @@ public class SIBSpawnMazeScript : MonoBehaviour
     public GameObject square;
 
     public float mazeGenerationSpeed;
+    public float solveMazeGenerationSpeed;
 
     private string point;
     private GameObject block;
 
     private SpriteRenderer spriteR;
 
+    private string startingPoint;
     private string newPoint;
+    private string winPoint;
 
     private int squaresCovered = 0;
     private int direction = 0;
@@ -22,13 +25,17 @@ public class SIBSpawnMazeScript : MonoBehaviour
     private string[] stack = new string[Stack.MaxSize];
     private int top = -1;
 
+    private string[] queue = new string[MaxSize];
+    private int front = 0;
+    private int rear = -1;
+
     private int paths;
     private string currentPoint;
 
     private int[] directions = {-2, -1, 1, 2};
     private bool moved;
 
-    public float mazeLength;
+    public float mazeWidth;
     public float mazeHeight;
 
     private GameObject childObj;
@@ -38,10 +45,13 @@ public class SIBSpawnMazeScript : MonoBehaviour
     private Dictionary <string, List <string>> mazeGraph = new Dictionary<string, List <string>>();
     private string listToString;
 
+    private Dictionary<string, string> cameFrom = new Dictionary<string, string>();
+    private List<string> path = new List<string>();
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        mazeLength += level;
+        mazeWidth += level;
         mazeHeight += level;
         AdjustCamera();
         StartCoroutine(CreateMaze());
@@ -49,7 +59,7 @@ public class SIBSpawnMazeScript : MonoBehaviour
 
     void SetWinArea()
     {
-        string winPoint = (mazeLength-1) + "," + (mazeHeight-1);
+        winPoint = (mazeWidth-1) + "," + (mazeHeight-1);
         getFilling(winPoint);
         spriteR.color = Color.green;
     }
@@ -60,13 +70,13 @@ public class SIBSpawnMazeScript : MonoBehaviour
         Camera cameraComponent = camera.GetComponent<Camera>();
 
         // Formula to position the camera at the centre of the maze
-        cameraComponent.orthographicSize = (mazeLength / 2) + 1;
-        camera.transform.position = new Vector3((mazeLength / 2) - 0.5f, -1 * ((mazeHeight / 2) - 0.5f), -10);
+        cameraComponent.orthographicSize = (mazeWidth / 2) + 1;
+        camera.transform.position = new Vector3((mazeWidth / 2) - 0.5f, -1 * ((mazeHeight / 2) - 0.5f), -10);
     }
 
     IEnumerator CreateMaze()            
     {
-        for (int xCord = 0; xCord <= mazeLength - 1; xCord++)
+        for (int xCord = 0; xCord <= mazeWidth - 1; xCord++)
         {
             for (int yCord = 0; yCord <= mazeHeight - 1; yCord++)
             {
@@ -75,7 +85,7 @@ public class SIBSpawnMazeScript : MonoBehaviour
             }
         }
 
-        string startingPoint = Random.Range(0, (int)mazeLength) + "," + Random.Range(0, (int)mazeHeight);
+        startingPoint = Random.Range(0, (int)mazeWidth) + "," + Random.Range(0, (int)mazeHeight);
 
         //Debug.Log("Starting Point: " + startingPoint);
 
@@ -110,7 +120,7 @@ public class SIBSpawnMazeScript : MonoBehaviour
             int x = int.Parse(coords[0]);
             int y = int.Parse(coords[1]);
 
-            if (x + 1 < mazeLength && isVisited((x + 1) + "," + y))
+            if (x + 1 < mazeWidth && isVisited((x + 1) + "," + y))
             {
                 paths -= 1;
             }
@@ -165,9 +175,15 @@ public class SIBSpawnMazeScript : MonoBehaviour
 
         SetWinArea();
 
-        Debug.Log($"Count: {mazeGraph.Count}");
+        BreadthFirstSearch(mazeGraph, "0,0");
 
-        foreach (KeyValuePair<string, List<string>> item in mazeGraph)
+        StartCoroutine(SolveMaze());
+
+        //DEBUGS
+
+        //Debug.Log($"Count: {mazeGraph.Count}");
+
+        /*foreach (KeyValuePair<string, List<string>> item in mazeGraph)
         {
             listToString = "";
             for (int i = 0; i < item.Value.Count; i++)
@@ -176,10 +192,39 @@ public class SIBSpawnMazeScript : MonoBehaviour
             }
 
             string message = ($"Key: {item.Key}, Value: {listToString}");
+            //Debug.Log(message);
+        }
+
+        List<string> bfsVisited = new List<string>();
+
+        bfsVisited = bfs(mazeGraph, "0,0");
+
+        Debug.Log($"Count: {cameFrom.Count}");
+        foreach (KeyValuePair<string, string> item in cameFrom)
+        {
+            string message = ($"Key: {item.Key}, Value: {item.Value}");
             Debug.Log(message);
         }
 
-        //Stack.printStack(stack ,top);
+        foreach (string item in bfsVisited)
+        {
+            //Debug.Log(item + " ");
+        }
+
+        //Stack.printStack(stack ,top);*/
+    }
+
+    IEnumerator SolveMaze()
+    {
+        //Debug.Log(path.Count);
+        int i = 0;
+        while (i < path.Count && path[i] != winPoint)
+        {
+            //Debug.Log("Changed Color");
+            ChangeColorRed(path[i]); 
+            i++;
+            yield return new WaitForSeconds(solveMazeGenerationSpeed);
+        }
     }
 
     int[] ShuffleArray(int[] array)
@@ -218,7 +263,7 @@ public class SIBSpawnMazeScript : MonoBehaviour
         squaresCovered++;
     }
 
-    Color findColor(string point)
+    /*Color findColor(string point)
     {
         getFilling(point);
         return spriteR.color;
@@ -230,7 +275,7 @@ public class SIBSpawnMazeScript : MonoBehaviour
         Color red = new Color(1, 0, 0, 1);
 
         return color.Equals(Color.red);
-    }
+    }*/
 
     void ChangeLayerToVisited(string point)
     {
@@ -314,7 +359,7 @@ public class SIBSpawnMazeScript : MonoBehaviour
                 return "";
             }
         }
-        else if (wallNo == -1 && x < mazeLength-1)
+        else if (wallNo == -1 && x < mazeWidth-1)
         {
             newPoint = (x + 1) + "," + y;
 
@@ -441,11 +486,59 @@ public class SIBSpawnMazeScript : MonoBehaviour
             }
         }
     }
+
+    void BreadthFirstSearch(Dictionary<string, List<string>> graph, string currentVertex)
+    {
+        List<string> visited = new List<string>();
+        List<string> queue = new List<string>();
+
+        queue.Add(currentVertex);
+        visited.Add(currentVertex);
+        cameFrom.Add("Start", null);
+
+        while (queue.Count != 0 && currentVertex != winPoint)
+        {
+            currentVertex = queue[0];
+            queue.RemoveAt(0);
+
+            foreach (string vertex in graph[currentVertex])
+            {
+                if (!visited.Contains(vertex) && !queue.Contains(vertex))
+                {
+                    queue.Add(vertex);
+                    visited.Add(vertex);
+                    cameFrom.Add(vertex, currentVertex);
+                }
+            }
+        }
+
+        string current = winPoint;
+
+        while (current != null)
+        {
+            path.Add(current);
+            if (cameFrom.ContainsKey(current))
+            {
+                current = cameFrom[current];
+            }
+            else
+            {
+                current = null;
+            }
+        }
+
+        path.Reverse();
+
+        /*for (int i = 0; i < path.Count; i++)
+        {
+            Debug.Log(path[i]);
+        }*/
+    }
 }
 
 internal class Stack
 {
-    public static int MaxSize = 10000000;
+    public static int MaxSize = 1000;
 
     public static bool IsFull(int top)
     {
@@ -527,6 +620,91 @@ internal class Stack
         else
         {
             Debug.Log("Stack is empty");
+        }
+    }
+}
+
+internal class Queue
+{
+    public const int MaxSize = 1000;
+
+    static void Main(string[] args)
+    {
+        rear = enQueue(queue, rear, "One");
+        rear = enQueue(queue, rear, "Two");
+        rear = enQueue(queue, rear, "Three");
+        rear = enQueue(queue, rear, "Four");
+        rear = enQueue(queue, rear, "Five");
+
+        printQueue(queue, front, rear);
+        Console.WriteLine("Dequeued: " + deQueue(queue, ref front, rear));
+        Console.WriteLine("Dequeued: " + deQueue(queue, ref front, rear));
+        Console.WriteLine("Dequeued: " + deQueue(queue, ref front, rear));
+        Console.WriteLine("Dequeued: " + deQueue(queue, ref front, rear));
+        Console.WriteLine("Dequeued: " + deQueue(queue, ref front, rear));
+
+        printQueue(queue, front, rear);
+    }
+
+    static bool isFull(int rear)
+    {
+        if (rear + 1 == MaxSize)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+
+    static bool isEmpty(int front, int rear)
+    {
+        if (front > rear)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+
+    static int enQueue(string[] queue, int rear, string data)
+    {
+        if (isFull(rear))
+        {
+            Console.WriteLine($"Queue is full - {data} not added");
+        }
+        else
+        {
+            rear += 1;
+            queue[rear] = data;
+        }
+        return rear;
+    }
+
+    static string deQueue(string[] queue, ref int front, int rear)
+    {
+        string deQueuedItem;
+        if (isEmpty(front, rear))
+        {
+            Console.WriteLine("Queue is empty - nothing to dequeue");
+            deQueuedItem = "";
+        }
+        else
+        {
+            deQueuedItem = queue[front];
+            front += 1;
+        }
+        return deQueuedItem;
+    }
+
+    static void printQueue(string[] queue, int front, int rear)
+    {
+        for (int i = front; i <= rear; i++)
+        {
+            Console.WriteLine(queue[i]);
         }
     }
 }
