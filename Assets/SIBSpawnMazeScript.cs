@@ -25,11 +25,11 @@ public class SIBSpawnMazeScript : MonoBehaviour
     private string[] stack = new string[Stack.MaxSize];
     private int top = -1;
 
-    private string[] queue = new string[MaxSize];
+    private string[] queue = new string[Queue.MaxSize];
     private int front = 0;
     private int rear = -1;
 
-    private int paths;
+    private int possiblePaths;
     private string currentPoint;
 
     private int[] directions = {-2, -1, 1, 2};
@@ -111,7 +111,7 @@ public class SIBSpawnMazeScript : MonoBehaviour
         while (!Stack.isEmpty(top))
         {
             moved = false;
-            paths = 4;
+            possiblePaths = 4;
 
             nextPoint = Stack.peek(stack, top);
             string[] coords = nextPoint.Split(',');
@@ -122,22 +122,22 @@ public class SIBSpawnMazeScript : MonoBehaviour
 
             if (x + 1 < mazeWidth && isVisited((x + 1) + "," + y))
             {
-                paths -= 1;
+                possiblePaths -= 1;
             }
             if (x - 1 >= 0 && isVisited((x - 1) + "," + y))
             {
-                paths -= 1;
+                possiblePaths -= 1;
             }
             if (y + 1 < mazeHeight && isVisited(x + "," + (y + 1)))
             {
-                paths -= 1;
+                possiblePaths -= 1;
             }
             if (y - 1 >= 0 && isVisited(x + "," + (y - 1)))
             {
-                paths -= 1;
+                possiblePaths -= 1;
             }
 
-            if (paths == 0)
+            if (possiblePaths == 0)
             {
                 nextPoint = Stack.pop(ref top, stack);
                 ChangeColorWhite(nextPoint);
@@ -490,22 +490,20 @@ public class SIBSpawnMazeScript : MonoBehaviour
     void BreadthFirstSearch(Dictionary<string, List<string>> graph, string currentVertex)
     {
         List<string> visited = new List<string>();
-        List<string> queue = new List<string>();
 
-        queue.Add(currentVertex);
+        rear = Queue.enQueue(queue, rear, currentVertex);
         visited.Add(currentVertex);
         cameFrom.Add("Start", null);
 
-        while (queue.Count != 0 && currentVertex != winPoint)
+        while (!Queue.isEmpty(front, rear) && currentVertex != winPoint)
         {
-            currentVertex = queue[0];
-            queue.RemoveAt(0);
+            currentVertex = Queue.deQueue(queue, ref front, rear);
 
             foreach (string vertex in graph[currentVertex])
             {
-                if (!visited.Contains(vertex) && !queue.Contains(vertex))
+                if (!visited.Contains(vertex) && !Queue.Contains(queue, vertex))
                 {
-                    queue.Add(vertex);
+                    rear = Queue.enQueue(queue, rear, vertex);
                     visited.Add(vertex);
                     cameFrom.Add(vertex, currentVertex);
                 }
@@ -628,25 +626,7 @@ internal class Queue
 {
     public const int MaxSize = 1000;
 
-    static void Main(string[] args)
-    {
-        rear = enQueue(queue, rear, "One");
-        rear = enQueue(queue, rear, "Two");
-        rear = enQueue(queue, rear, "Three");
-        rear = enQueue(queue, rear, "Four");
-        rear = enQueue(queue, rear, "Five");
-
-        printQueue(queue, front, rear);
-        Console.WriteLine("Dequeued: " + deQueue(queue, ref front, rear));
-        Console.WriteLine("Dequeued: " + deQueue(queue, ref front, rear));
-        Console.WriteLine("Dequeued: " + deQueue(queue, ref front, rear));
-        Console.WriteLine("Dequeued: " + deQueue(queue, ref front, rear));
-        Console.WriteLine("Dequeued: " + deQueue(queue, ref front, rear));
-
-        printQueue(queue, front, rear);
-    }
-
-    static bool isFull(int rear)
+    public static bool isFull(int rear)
     {
         if (rear + 1 == MaxSize)
         {
@@ -658,7 +638,7 @@ internal class Queue
         }
     }
 
-    static bool isEmpty(int front, int rear)
+    public static bool isEmpty(int front, int rear)
     {
         if (front > rear)
         {
@@ -670,11 +650,11 @@ internal class Queue
         }
     }
 
-    static int enQueue(string[] queue, int rear, string data)
+    public static int enQueue(string[] queue, int rear, string data)
     {
         if (isFull(rear))
         {
-            Console.WriteLine($"Queue is full - {data} not added");
+            Debug.Log($"Queue is full - {data} not added");
         }
         else
         {
@@ -684,12 +664,12 @@ internal class Queue
         return rear;
     }
 
-    static string deQueue(string[] queue, ref int front, int rear)
+    public static string deQueue(string[] queue, ref int front, int rear)
     {
         string deQueuedItem;
         if (isEmpty(front, rear))
         {
-            Console.WriteLine("Queue is empty - nothing to dequeue");
+            Debug.Log("Queue is empty - nothing to dequeue");
             deQueuedItem = "";
         }
         else
@@ -700,11 +680,24 @@ internal class Queue
         return deQueuedItem;
     }
 
-    static void printQueue(string[] queue, int front, int rear)
+    public static void printQueue(string[] queue, int front, int rear)
     {
         for (int i = front; i <= rear; i++)
         {
-            Console.WriteLine(queue[i]);
+            Debug.Log(queue[i]);
         }
+    }
+
+    public static bool Contains(string[] queue, string data)
+    {
+        for (int i = 0; i < queue.Length; i++)
+        {
+            if (queue[i] == data)
+            {
+                return true;
+            }
+        }
+
+        return false;
     }
 }
