@@ -7,6 +7,8 @@ public class GameManagerScript : MonoBehaviour
     float timePassed = 0;
     public bool timerPaused = false;
 
+    private float timePassedClone;
+
     private int seconds;
     private int minutes;
 
@@ -23,7 +25,7 @@ public class GameManagerScript : MonoBehaviour
     public static int questionRate;
     public static bool questionRateInitialised = false;
 
-    private int secondsClone;
+    private float secondsClone;
 
     private bool selectedCorrectly = false;
     private bool questionCreated = false;
@@ -32,6 +34,8 @@ public class GameManagerScript : MonoBehaviour
 
     public GameObject winScreen;
     public Text timerMessage;
+
+    public bool questionOnScreen = false;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -56,20 +60,24 @@ public class GameManagerScript : MonoBehaviour
             timerText.text = string.Format("{0:00}:{1:00}", minutes, seconds);
         }
 
-        secondsClone = seconds;
+        timePassedClone += Time.deltaTime;
+        secondsClone = Mathf.FloorToInt(timePassedClone % 60);
+        //Debug.Log(secondsClone);
         if (secondsClone != 0 && secondsClone % questionRate == 0 && !questionCreated)
         {
             questionCreated = true;
             CreateQuestion();
             questionScreen.SetActive(true);
+            questionOnScreen = true;
         }
 
         if (selectedCorrectly)
         {
             questionScreen.SetActive(false);
             questionCreated = false;
-            secondsClone = 0;
+            timePassedClone = 0;
             selectedCorrectly = false;
+            questionOnScreen = false;
         }
     }
 

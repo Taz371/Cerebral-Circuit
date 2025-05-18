@@ -177,7 +177,7 @@ public class SIBSpawnMazeScript : MonoBehaviour
 
         BreadthFirstSearch(mazeGraph, "0,0");
 
-        StartCoroutine(SolveMaze());
+        //StartCoroutine(SolveMaze());
 
         //DEBUGS
 
@@ -246,6 +246,10 @@ public class SIBSpawnMazeScript : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Space) == true)
         {
             SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+        }
+        if (Input.GetKeyDown(KeyCode.Return) == true)
+        {
+            StartCoroutine(SolveMaze());
         }
     }
 
