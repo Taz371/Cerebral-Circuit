@@ -16,7 +16,7 @@ public class SIBSpawnMazeScript : MonoBehaviour
     private SpriteRenderer spriteR;
 
     private string startingPoint;
-    private string newPoint;
+    private string newPoint; 
     private string winPoint;
 
     private int squaresCovered = 0;

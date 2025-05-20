@@ -234,7 +234,7 @@ Camera:
   m_Enabled: 1
   serializedVersion: 2
   m_ClearFlags: 1
-  m_BackGroundColor: {r: 0.92156863, g: 0.49019608, b: 0.6627451, a: 1}
+  m_BackGroundColor: {r: 0.02158241, g: 0.9002027, b: 0.9150943, a: 1}
   m_projectionMatrixMode: 1
   m_GateFitMode: 2
   m_FOVAxisMode: 0
@@ -398,7 +398,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.44154164, g: 0, b: 0.8584906, a: 1}
+  m_Color: {r: 0, g: 0.47686273, b: 0.85882354, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -597,7 +597,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.7576247, g: 0.5093005, b: 0.990566, a: 1}
+  m_Color: {r: 0.028346404, g: 0.8418913, b: 0.8584906, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -848,7 +848,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.44154164, g: 0, b: 0.8584906, a: 1}
+  m_Color: {r: 0, g: 0.47843137, b: 0.8584906, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -981,7 +981,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.44154164, g: 0, b: 0.8584906, a: 1}
+  m_Color: {r: 0, g: 0.47843137, b: 0.8584906, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -1180,7 +1180,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.7576247, g: 0.5093005, b: 0.990566, a: 1}
+  m_Color: {r: 0, g: 0.8267131, b: 0.8867924, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -1313,7 +1313,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.44154164, g: 0, b: 0.8584906, a: 1}
+  m_Color: {r: 0, g: 0.47843137, b: 0.85882354, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -1555,7 +1555,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   square: {fileID: 605721490817169454, guid: 79a763a017a101749aa6f76458efbb37, type: 3}
-  mazeGenerationSpeed: 0
+  mazeGenerationSpeed: 0.1
   solveMazeGenerationSpeed: 0.2
   mazeWidth: 3
   mazeHeight: 3
@@ -1698,6 +1698,18 @@ PrefabInstance:
       propertyPath: m_IsTrigger
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4714944784257081471, guid: a52e814bd76d8aa47a82dcb6f922e1b6, type: 3}
+      propertyPath: m_Color.b
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4714944784257081471, guid: a52e814bd76d8aa47a82dcb6f922e1b6, type: 3}
+      propertyPath: m_Color.g
+      value: 0.04240489
+      objectReference: {fileID: 0}
+    - target: {fileID: 4714944784257081471, guid: a52e814bd76d8aa47a82dcb6f922e1b6, type: 3}
+      propertyPath: m_Color.r
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4889428277782423989, guid: a52e814bd76d8aa47a82dcb6f922e1b6, type: 3}
       propertyPath: m_Mass
       value: 0.01
@@ -1827,7 +1839,7 @@ MonoBehaviour:
   optionTwo: {fileID: 1654761939}
   optionThree: {fileID: 1903748149}
   optionFour: {fileID: 50039360}
-  userQuestionRate: 3
+  userQuestionRate: 10
   winScreen: {fileID: 927403143}
   timerMessage: {fileID: 417741481}
   questionOnScreen: 0
