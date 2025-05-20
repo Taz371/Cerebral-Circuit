@@ -1555,7 +1555,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   square: {fileID: 605721490817169454, guid: 79a763a017a101749aa6f76458efbb37, type: 3}
-  mazeGenerationSpeed: 0.1
+  mazeGenerationSpeed: 0
   solveMazeGenerationSpeed: 0.2
   mazeWidth: 3
   mazeHeight: 3
@@ -1648,7 +1648,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 24617875396673901, guid: a52e814bd76d8aa47a82dcb6f922e1b6, type: 3}
       propertyPath: playerSpeed
-      value: 2000
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 1280439201309515456, guid: a52e814bd76d8aa47a82dcb6f922e1b6, type: 3}
       propertyPath: m_Name
@@ -1839,10 +1839,11 @@ MonoBehaviour:
   optionTwo: {fileID: 1654761939}
   optionThree: {fileID: 1903748149}
   optionFour: {fileID: 50039360}
-  userQuestionRate: 10
+  userQuestionRate: 15
   winScreen: {fileID: 927403143}
   timerMessage: {fileID: 417741481}
   questionOnScreen: 0
+  winScreenActive: 0
 --- !u!4 &1787580620
 Transform:
   m_ObjectHideFlags: 0

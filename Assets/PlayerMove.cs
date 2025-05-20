@@ -18,7 +18,7 @@ public class PlayerMove : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (!gameManagerScript.questionOnScreen)
+        if (!gameManagerScript.questionOnScreen && !gameManagerScript.winScreenActive)
         {
             Move();
         }
@@ -30,21 +30,25 @@ public class PlayerMove : MonoBehaviour
 
     void Move()
     {
-        if (Input.GetKeyDown(KeyCode.W) == true)
+        if (Input.GetKey(KeyCode.W) == true)
         {
-            myRigidBody.linearVelocity = Vector2.up * playerSpeed * Time.deltaTime;
+            myRigidBody.linearVelocity = Vector2.up * playerSpeed;
         }
-        if (Input.GetKeyDown(KeyCode.S) == true)
+        else if (Input.GetKey(KeyCode.S) == true)
         {
-            myRigidBody.linearVelocity = Vector2.down * playerSpeed * Time.deltaTime;
+            myRigidBody.linearVelocity = Vector2.down * playerSpeed;
         }
-        if (Input.GetKeyDown(KeyCode.A) == true)
+        else if (Input.GetKey(KeyCode.A) == true)
         {
-            myRigidBody.linearVelocity = Vector2.left * playerSpeed * Time.deltaTime;
+            myRigidBody.linearVelocity = Vector2.left * playerSpeed;
         }
-        if (Input.GetKeyDown(KeyCode.D) == true)
+        else if (Input.GetKey(KeyCode.D) == true)
         {
-            myRigidBody.linearVelocity = Vector2.right * playerSpeed * Time.deltaTime;
+            myRigidBody.linearVelocity = Vector2.right * playerSpeed;
+        }
+        else
+        {
+            myRigidBody.linearVelocity = Vector3.zero;
         }
     }
 }

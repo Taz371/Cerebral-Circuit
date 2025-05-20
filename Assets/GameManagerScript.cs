@@ -36,10 +36,13 @@ public class GameManagerScript : MonoBehaviour
     public Text timerMessage;
 
     public bool questionOnScreen = false;
+    public bool winScreenActive = false;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        winScreenActive = false;
+
         if (!questionRateInitialised)
         {
             questionRate = userQuestionRate;
@@ -83,6 +86,7 @@ public class GameManagerScript : MonoBehaviour
 
     public void win()
     {
+        winScreenActive = true;
         if (questionRate != 1)
         {
             questionRate--;

@@ -11,12 +11,12 @@ public class SIBSpawnMazeScript : MonoBehaviour
     public float solveMazeGenerationSpeed;
 
     private string point;
-    private GameObject block;
+    private GameObject block;                                                
 
     private SpriteRenderer spriteR;
 
     private string startingPoint;
-    private string newPoint; 
+    private string newPoint;
     private string winPoint;
 
     private int squaresCovered = 0;
