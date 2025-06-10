@@ -2,6 +2,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEngine.UI;
 
 public class SIBSpawnMazeScript : MonoBehaviour
 {
@@ -41,6 +42,7 @@ public class SIBSpawnMazeScript : MonoBehaviour
     private GameObject childObj;
 
     public static int level = 0;
+    public Text levelText;
 
     private Dictionary <string, List <string>> mazeGraph = new Dictionary<string, List <string>>();
     private string listToString;
@@ -48,13 +50,18 @@ public class SIBSpawnMazeScript : MonoBehaviour
     private Dictionary<string, string> cameFrom = new Dictionary<string, string>();
     private List<string> path = new List<string>();
 
+    public bool cameraFollowingPlayer = false;
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         mazeWidth += level;
         mazeHeight += level;
-        AdjustCamera();
         StartCoroutine(CreateMaze());
+        if (!cameraFollowingPlayer)
+        {
+            AdjustCamera();
+        }
     }
 
     void SetWinArea()
@@ -87,19 +94,13 @@ public class SIBSpawnMazeScript : MonoBehaviour
 
         startingPoint = Random.Range(0, (int)mazeWidth) + "," + Random.Range(0, (int)mazeHeight);
 
-        //Debug.Log("Starting Point: " + startingPoint);
-
         Stack.push(ref top, stack, startingPoint);
-        
-        //Debug.Log(startingPoint);
 
         ChangeColorRed(startingPoint);
         ChangeLayerToVisited(startingPoint);
 
         int[] validDirections = new int[] { -2, -1, 1, 2 };
         direction = validDirections[Random.Range(0, validDirections.Length)];
-
-        //Debug.Log(direction);
 
         string nextPoint = RemoveWall(startingPoint, direction);
 
@@ -115,7 +116,6 @@ public class SIBSpawnMazeScript : MonoBehaviour
 
             nextPoint = Stack.peek(stack, top);
             string[] coords = nextPoint.Split(',');
-            //Debug.Log("Parsing point: " + nextPoint);
 
             int x = int.Parse(coords[0]);
             int y = int.Parse(coords[1]);
@@ -176,51 +176,13 @@ public class SIBSpawnMazeScript : MonoBehaviour
         SetWinArea();
 
         BreadthFirstSearch(mazeGraph, "0,0");
-
-        //StartCoroutine(SolveMaze());
-
-        //DEBUGS
-
-        //Debug.Log($"Count: {mazeGraph.Count}");
-
-        /*foreach (KeyValuePair<string, List<string>> item in mazeGraph)
-        {
-            listToString = "";
-            for (int i = 0; i < item.Value.Count; i++)
-            {
-                listToString = listToString + " " + item.Value[i];
-            }
-
-            string message = ($"Key: {item.Key}, Value: {listToString}");
-            //Debug.Log(message);
-        }
-
-        List<string> bfsVisited = new List<string>();
-
-        bfsVisited = bfs(mazeGraph, "0,0");
-
-        Debug.Log($"Count: {cameFrom.Count}");
-        foreach (KeyValuePair<string, string> item in cameFrom)
-        {
-            string message = ($"Key: {item.Key}, Value: {item.Value}");
-            Debug.Log(message);
-        }
-
-        foreach (string item in bfsVisited)
-        {
-            //Debug.Log(item + " ");
-        }
-
-        //Stack.printStack(stack ,top);*/
     }
 
     IEnumerator SolveMaze()
     {
-        //Debug.Log(path.Count);
         int i = 0;
         while (i < path.Count && path[i] != winPoint)
         {
-            //Debug.Log("Changed Color");
             ChangeColorRed(path[i]); 
             i++;
             yield return new WaitForSeconds(solveMazeGenerationSpeed);
@@ -251,6 +213,9 @@ public class SIBSpawnMazeScript : MonoBehaviour
         {
             StartCoroutine(SolveMaze());
         }
+
+        levelText.text = $"Level {level + 1}";
+        ChangeColorRed("0,0");
     }
 
     void ChangeColorRed(string point)
@@ -266,20 +231,6 @@ public class SIBSpawnMazeScript : MonoBehaviour
         spriteR.color = Color.white;
         squaresCovered++;
     }
-
-    /*Color findColor(string point)
-    {
-        getFilling(point);
-        return spriteR.color;
-    }
-
-    bool isColored(string point)
-    {
-        Color color = findColor(point);
-        Color red = new Color(1, 0, 0, 1);
-
-        return color.Equals(Color.red);
-    }*/
 
     void ChangeLayerToVisited(string point)
     {
@@ -329,10 +280,6 @@ public class SIBSpawnMazeScript : MonoBehaviour
         string[] coords = point.Split(',');
         int x = int.Parse(coords[0]);
         int y = int.Parse(coords[1]);
-
-        //Debug.Log(x);
-        //Debug.Log(y);
-
 
         if (wallNo == 1 && x > 0)
         {
@@ -530,11 +477,6 @@ public class SIBSpawnMazeScript : MonoBehaviour
         }
 
         path.Reverse();
-
-        /*for (int i = 0; i < path.Count; i++)
-        {
-            Debug.Log(path[i]);
-        }*/
     }
 }
 

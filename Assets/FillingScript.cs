@@ -28,5 +28,9 @@ public class FillingScript : MonoBehaviour
             SIBSpawnMazeScript.level += 1;
             gameManagerScript.win();
         }
+        else
+        {
+            spriteR.color = Color.red;
+        }
     }
 }

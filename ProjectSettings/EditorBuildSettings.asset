@@ -9,7 +9,7 @@ EditorBuildSettings:
     path: Assets/Scenes/MainMenu.unity
     guid: 3fea4640479f8aa439bb28e377c93030
   - enabled: 1
-    path: Assets/Scenes/RecursiveBacktracking.unity
+    path: Assets/Scenes/IterativeBacktracking.unity
     guid: 0800f4a2320c9d243a28609eb618df46
   m_configObjects: {}
   m_UseUCBPForAssetBundles: 0
